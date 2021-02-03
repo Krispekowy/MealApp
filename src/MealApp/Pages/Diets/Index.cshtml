@@ -1,0 +1,39 @@
+﻿@page
+@model MealApp.Pages.Diet.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Diety</h1>
+
+<div class="form-group row">
+    <div class="col-sm-10">
+        <a asp-page="/Diets/Add" class="btn btn-primary">Dodaj nową dietę</a>
+    </div>
+</div>
+<form class="card-deck">
+    @if (Model.Diets != null)
+    {
+        @foreach (var item in Model.Diets)
+        {
+            <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+                @*Use hidden input elements to store product id which
+                    we need when we submit the form*@
+                <input hidden asp-for="@item.Id" />
+                <div class="card-header">
+                    <h5>@item.DietName</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Opis diety:</h6>
+                    <p>@item.Description</p>
+
+                </div>
+                <div class="card-footer text-center">
+                    <div class="row">
+                        <a asp-page="/Diets/Edit" asp-route-Id="@item.Id" class="btn btn-primary m-1">Edytuj</a>
+                        <a asp-page="/Diets/Delete" asp-route-Id="@item.Id"  class="btn btn-danger m-1">Usuń</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</form>

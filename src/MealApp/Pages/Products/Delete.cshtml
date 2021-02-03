@@ -1,0 +1,14 @@
+﻿@page "{id}"
+@model MealApp.Pages.Products.DeleteModel
+@{
+    ViewData["Title"] = "Usuń produkt";
+}
+<h1>Potwierdzenie usunięcia</h1>
+
+<div class="alert alert-danger">
+    <h5>Czy jesteś pewien, że chcesz usunąć produkt o nazwie: @Model.ProductDTO.ProductName?</h5>
+    <form method="post">
+        <button type="submit" class="btn btn-danger">Tak</button>
+        <a class="btn btn-primary" asp-page="/Products/Index">Nie</a>
+    </form>
+</div>

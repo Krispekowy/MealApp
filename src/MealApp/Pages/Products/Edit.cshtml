@@ -1,0 +1,56 @@
+﻿@page "{id}"
+@model MealApp.Pages.Products.EditModel
+@{
+}
+<h1>Edytuj produkt</h1>
+
+<form method="post" class="mt-3">
+    <input hidden asp-for="ProductDTO.Id" />
+    <div class="form-group row">
+        <label asp-for="ProductDTO.ProductName" class="col-sm-2 col-form-label">
+            Nazwa
+        </label>
+        <div class="col-sm-4">
+            <input asp-for="ProductDTO.ProductName" class="form-control" placeholder="Nazwa produktu">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ProductDTO.CategoryId" class="col-sm-2 col-form-label">
+            Kategoria
+        </label>
+        <div class="col-sm-4">
+            @Html.DropDownListFor(p => p.ProductDTO.CategoryId, Model.Categories, "--Wybierz kategorię produktu--", new { @class = "form-control" })
+            <span asp-validation-for="ProductDTO.CategoryId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ProductDTO.Kcal" class="col-sm-2 col-form-label">
+            Kalorie
+        </label>
+        <div class="col-sm-4">
+            <input asp-for="ProductDTO.Kcal" class="form-control" placeholder="Ilość kalorii">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ProductDTO.Unit" class="col-sm-2 col-form-label">
+            Jednostka
+        </label>
+        <div class="col-sm-4">
+            <input asp-for="ProductDTO.Unit" class="form-control" placeholder="Jednostka">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ProductDTO.QuantityUnit" class="col-sm-2 col-form-label">
+            Ilość jednostki
+        </label>
+        <div class="col-sm-4">
+            <input asp-for="ProductDTO.QuantityUnit" class="form-control" placeholder="Ilość jednostek">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-4">
+            <button type="submit" class="btn btn-primary">Aktualizuj</button>
+            <a asp-page="/Products/Index" class="btn btn-danger">Wróć</a>
+        </div>
+    </div>
+</form>

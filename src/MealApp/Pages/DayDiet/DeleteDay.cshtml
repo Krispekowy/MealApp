@@ -1,0 +1,15 @@
+﻿@page "{id}"
+@model MealApp.Pages.DayDiet.DeleteDayModel
+@{
+    ViewData["Title"] = "Usuń dzień";
+}
+
+<h1>Potwierdzenie usunięcia</h1>
+<input type="hidden" asp-for="@Model.Day.DietId" />
+<div class="alert alert-danger">
+    <h5>Czy jesteś pewien, że chcesz usunąć dzień diety o nazwie: @Model.Day.Name?</h5>
+    <form method="post">
+        <button type="submit" class="btn btn-danger">Tak</button>
+        <a class="btn btn-primary" asp-page="/Diets/Edit" asp-route-Id="@Model.Day.DietId">Nie</a>
+    </form>
+</div>

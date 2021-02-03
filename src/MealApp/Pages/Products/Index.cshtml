@@ -1,0 +1,36 @@
+﻿@page
+@model MealApp.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = "Lista posiłków";
+}
+<h1>Produkty</h1>
+
+<div class="form-group row">
+    <div class="col-sm-10">
+        <a asp-page="/Products/Add" class="btn btn-primary">Dodaj nowy</a>
+    </div>
+</div>
+<div class="list-group">
+    @if (Model.ProductsDTO != null)
+    {
+
+        @foreach (var item in Model.ProductsDTO)
+        {
+            <div class="row">
+                <div class="col-sm-8">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">@item.ProductName</h5>
+                            <small>@item.Kcal kcal w @item.QuantityUnit @item.Unit</small>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm text-center">
+                    <a asp-page="/Products/Edit" asp-route-id="@item.Id" class="btn btn-primary m-1">Edytuj</a>
+                    <a asp-page="/Products/Delete" asp-route-id="@item.Id" class="btn btn-danger m-1">Usuń</a>
+                </div>
+            </div>
+
+        }
+    }
+</div>

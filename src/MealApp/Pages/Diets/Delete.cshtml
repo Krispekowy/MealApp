@@ -1,0 +1,14 @@
+﻿@page "{id}"
+@model MealApp.Pages.Diets.DeleteModel
+@{
+    ViewData["Title"] = "Usuń dietę";
+}
+<h1>Potwierdzenie usunięcia</h1>
+
+<div class="alert alert-danger">
+    <h5>Czy jesteś pewien, że chcesz usunąć dietę: @Model.Diet.DietName?</h5>
+    <form method="post">
+        <button type="submit" class="btn btn-danger">Tak</button>
+        <a class="btn btn-primary" asp-page="/Diets/Index">Nie</a>
+    </form>
+</div>

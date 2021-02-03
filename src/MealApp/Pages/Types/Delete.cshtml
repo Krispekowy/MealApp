@@ -1,0 +1,14 @@
+﻿@page "{id}"
+@model MealApp.Pages.Types.DeleteModel
+@{
+    ViewData["Title"] = "Usuń typ";
+}
+<h1>Potwierdzenie usunięcia</h1>
+
+<div class="alert alert-danger">
+    <h5>Czy jesteś pewien, że chcesz usunąć typ posiłku o nazwie: @Model.TypeOfMealDTO.TypeName?</h5>
+    <form method="post">
+        <button type="submit" class="btn btn-danger">Tak</button>
+        <a class="btn btn-primary" asp-page="/Types/Index">Nie</a>
+    </form>
+</div>

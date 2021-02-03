@@ -1,0 +1,62 @@
+﻿@page "{id}"
+@model MealApp.Pages.Diets.EditDietModel
+@{
+}
+<h1>Skonfiguruj dni diety</h1>
+
+<div class="card text-center">
+
+    <div class="card-header">
+        <input hidden asp-for="@Model.Diet.Id" />
+        <h5>@Model.Diet.DietName</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">@Model.Diet.Description</p>
+    </div>
+</div>
+
+<div class="card-deck">
+    @if (Model.Diet != null)
+    {
+        @foreach (var day in Model.Diet.Days)
+        {
+            <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+                @*Use hidden input elements to store product id which
+                    we need when we submit the form*@
+
+                <div class="card-header">
+                    <div class="row">
+                        <h5>@day.Name</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h6>Posiłki:</h6>
+                    @foreach (var meal in day.DayDietMeals)
+                    {
+                        <p>@(meal.Meal.MealName + " (" + meal.Meal.Kcal + " kcal)")</p>
+                    }
+                </div>
+                <div class="card-footer text-center">
+                    <p>@("Kaloryczność: " + day.Kcal + " kcal") </p>
+                    <div style="text-align: right">
+                        <a asp-page="/DayDiet/DeleteDay" asp-route-ID="@day.Id" class="btn btn-primary">Usuń</a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+<div class="form-group row">
+    <div class="col-sm-10">
+        <a asp-page="/DayDiet/AddDay" asp-route-dietId="@Model.Diet.Id" class="btn btn-outline-primary">Dodaj dzień</a>
+    </div>
+    <div class="col-sm-10 flex-row-reverse">
+        <a asp-page="/Diets/ShoppingList" asp-route-dietId="@Model.Diet.Id" class="btn btn-outline-primary">Generuj listę zakupów</a>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-sm-10">
+        <a asp-page="/Diets/Index" class="btn btn-danger">Wróć do listy diet</a>
+    </div>
+</div>
