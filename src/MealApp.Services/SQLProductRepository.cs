@@ -49,7 +49,7 @@ namespace MealApp.Services
                 return dbContext.Products;
             }
             return dbContext.Products.Where(p => p.ProductName.Contains(searchTerm) ||
-                                              p.Unit.Contains(searchTerm));
+                                              p.Kcal.ToString().Contains(searchTerm));
         }
 
         public Product UpdateProduct(Product updatedProduct)

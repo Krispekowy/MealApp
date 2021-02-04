@@ -25,9 +25,11 @@ namespace MealApp.Pages.Products
         }
         [BindProperty]
         public IEnumerable<ProductDTO> ProductsDTO { get; set; }
+        [BindProperty(SupportsGet =true)]
+        public string SearchTerm { get; set; }
         public IActionResult OnGet()
         {
-            var products = productRepository.GetAllProducts();
+            var products = productRepository.SearchProduct(SearchTerm);
             ProductsDTO = mapper.Map<IEnumerable<ProductDTO>>(products);
             return Page();
         }
