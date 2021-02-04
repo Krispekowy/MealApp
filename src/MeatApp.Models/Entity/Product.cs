@@ -19,5 +19,6 @@ namespace MeatApp.Models
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public virtual List<MealProduct> MealProducts { get; set; }
+        public string PhotoPath { get; set; }
     }
 }

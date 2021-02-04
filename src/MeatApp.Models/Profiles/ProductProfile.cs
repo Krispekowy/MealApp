@@ -14,7 +14,8 @@ namespace MealApp.Models.Profiles
         {
             CreateMap<ProductDTO, Product>()
                 .ForMember(dto => dto.MealProducts, opt=>opt.Ignore())
-                .ForMember(dto => dto.Category, opt => opt.Ignore());
+                .ForMember(dto => dto.Category, opt => opt.Ignore())
+                .ForMember(dto => dto.PhotoPath, opt => opt.Ignore());
         }
     }
 }

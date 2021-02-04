@@ -1,4 +1,5 @@
 ﻿using MeatApp.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace MealApp.Services
 
         public IEnumerable<Product> GetAllProducts()
         {
-            return dbContext.Products;
+            return dbContext.Products.Include(a=>a.Category);
         }
 
         public Product GetProduct(int id)
@@ -46,10 +47,10 @@ namespace MealApp.Services
         {
             if (string.IsNullOrEmpty(searchTerm))
             {
-                return dbContext.Products;
+                return dbContext.Products.Include(a => a.Category);
             }
             return dbContext.Products.Where(p => p.ProductName.Contains(searchTerm) ||
-                                              p.Kcal.ToString().Contains(searchTerm));
+                                              p.Kcal.ToString().Contains(searchTerm)).Include(a=>a.Category);
         }
 
         public Product UpdateProduct(Product updatedProduct)
