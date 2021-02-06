@@ -15,5 +15,6 @@ namespace MealApp.Models.Models
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public IFormFile Photo { get; set; }
+        public string PhotoPath { get; set; }
     }
 }
