@@ -40,13 +40,13 @@
                 Nazwa produktu
             </label>
             <div class="col-sm-12">
-                <select id="productSelect" class="form-control">
-                    <option id="0" value="0">-- Wybierz produkt --</option>
+                <input id="productSelect" type="text" list="productsToSelect" class="form-control custom-select" autocomplete="on">
+                <datalist id="productsToSelect">
                     @foreach (var product in Model.ProductsDTO)
                     {
-                        <option id="@product.Id" value="@product.Id">@product.ProductName</option>
+                        <option id="@product.Id" value="@product.ProductName"></option>
                     }
-                </select>
+                </datalist>
             </div>
         </div>
         <div class="form-group col">
@@ -85,6 +85,7 @@
             <a asp-page="/Meals/Index" class="btn btn-danger">Anuluj</a>
         </div>
     </div>
+
 </form>
 @section Scripts {
     <partial name="~/Pages/Shared/_ValidationScriptsPartial.cshtml" />
@@ -95,49 +96,68 @@
             var tabela = $('#productsTable tr');
             var wierszy = tabela.length;
             var indeks = wierszy - 1;
-            var produkt = $('#productSelect option:selected').text();
-            var produktId = $('#productSelect option:selected').val();
+            var produkt = GetOptionSelected('value');
+            var produktId = GetOptionSelected('id');
             var ilosc = $('#quantity').val();
-            var markup = '<tr onclick="GetIndex(this)" class="productsRows"><td><input type="hidden" class="product" id="MealDTO_MealProducts_' + indeks + '__ProductId" value=' + produktId + ' name="MealDTO.MealProducts[' + indeks + '].ProductId"><label class="col-form-label">' + produkt + '</label></td><td><input class="quantity" type="hidden" value=' + ilosc + ' id="quantity' + indeks + '"__Quantity" name="MealDTO.MealProducts[' + indeks + '].Quantity"><label class="col-form-label">' + ilosc + '</label></td><td><button id=' + indeks + ' type="button" class="btn btn-danger delete-row"><i class="fa fa-close"></button></td></tr>';
+            var markup = '<tr onclick="GetIndex(this)" class="productsRows"><td><input type="hidden" class="product" id="MealDTO_MealProducts_' + indeks + '__ProductId" value=' + produktId + ' name="MealDTO.MealProducts[' + indeks + '].ProductId"><label id="MealDTO_MealProducts_' + indeks + '__ProductLabelId" class="produktLabel">' + produkt + '</label></td><td><input class="quantity" type="hidden" value=' + ilosc + ' id="quantity' + indeks + '"__Quantity" name="MealDTO.MealProducts[' + indeks + '].Quantity"><label class="col-form-label">' + ilosc + '</label></td><td><button id=' + indeks + ' type="button" class="btn btn-danger delete-row"><i class="fa fa-close"></button></td></tr>';
             $('table tbody').append(markup);
             SetNull();
-            HideShowSelected(produktId, false);
+            HideShowSelected(produkt, false);
+
         });
     });
 
     $(document).on("click", ".delete-row", function (e) {
         e.preventDefault();
-            var produktId = $('#MealDTO_MealProducts_' + index + '__ProductId').attr("value");
-            var parentDiv = $(this).parent().parent();
-            $(parentDiv).remove();
-            var rows = $(".productsRows");
-            for (var tr = 0; tr < rows.length; tr++) {
-                var oneRow = rows[tr];
-                var newProduct = 'MealDTO.MealProducts[' + tr + '].ProductId';
-                var newIdProduct = 'MealDTO_MealProducts_' + tr + '__ProductId'
-                $(oneRow).find('.product').attr({ "name": newProduct, "id": newIdProduct });
-                var newQuantity = 'MealDTO.MealProducts[' + tr + '].Quantity';
-                $(oneRow).find('.quantity').attr("name", newQuantity);
+        var produkt = document.getElementById('MealDTO_MealProducts_' + index + '__ProductLabelId').textContent;
+        console.log(produkt);
+        var parentDiv = $(this).parent().parent();
+        $(parentDiv).remove();
+        var rows = $(".productsRows");
+        for (var tr = 0; tr < rows.length; tr++) {
+            var oneRow = rows[tr];
+            var newProduct = 'MealDTO.MealProducts[' + tr + '].ProductId';
+            var newIdProduct = 'MealDTO_MealProducts_' + tr + '__ProductId';
+            var newLabelProduct = 'MealDTO_MealProducts_' + tr + '__ProductLabelId';
+            $(oneRow).find('.product').attr({ "name": newProduct, "id": newIdProduct });
+            console.log($(oneRow).find('.produktLabel').attr("id", newLabelProduct));
+            var newQuantity = 'MealDTO.MealProducts[' + tr + '].Quantity';
+            $(oneRow).find('.quantity').attr("name", newQuantity);
         };
-            HideShowSelected(produktId, true);
-            return false;
+        HideShowSelected(produkt, true);
+        return false;
     });
+
+    function GetOptionSelected(attributeOfOption) {
+        const Value = document.querySelector('#productSelect').value;
+        if (!Value) return;
+        const Id = document.querySelector('option[value="' + Value + '"]').id;
+        const option = document.createElement("option");
+        option.value = Value;
+        option.id = Id;
+        if (attributeOfOption == 'value') {
+            return option.value;
+        }
+        else {
+            return option.id;
+        }
+    };
 
     function GetIndex(x) {
         index = x.rowIndex - 1;
-    }
+    };
 
-    function HideShowSelected(produktId, hideShow) {
+    function HideShowSelected(produkt, hideShow) {
         if (hideShow) {
-            $("#productSelect").children('#' + produktId).show();
+            document.querySelector('option[value="' + produkt + '"]').removeAttribute('disabled');
         }
         else {
-            $("#productSelect").children('#' + produktId).hide();
+            document.querySelector('option[value="' + produkt + '"]').setAttribute('disabled', true);
         }
     };
 
     function SetNull() {
-        $("#productSelect").val('0');
+        $("#productSelect").val(null);
         document.getElementById("quantity").value = "";
     }
 </script>
