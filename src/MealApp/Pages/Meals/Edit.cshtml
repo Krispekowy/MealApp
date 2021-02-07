@@ -41,13 +41,13 @@
                 Nazwa produktu
             </label>
             <div class="col-sm-12">
-                <select id="productSelect" class="form-control">
-                    <option value="0">-- Wybierz produkt --</option>
+                <input id="productSelect" type="text" list="productsToSelect" class="form-control custom-select" autocomplete="on">
+                <datalist id="productsToSelect">
                     @foreach (var product in Model.ProductsDTO)
                     {
-                        <option id="@product.Id" value="@product.Id">@product.ProductName</option>
+                        <option id="@product.Id" value="@product.ProductName"></option>
                     }
-                </select>
+                </datalist>
             </div>
         </div>
         <div class="form-group col">
@@ -82,7 +82,7 @@
                         <td>
                             <input class="mealId" value="@Model.MealDTO.Id" type="hidden" asp-for="MealDTO.MealProducts[Model.MealDTO.MealProducts.IndexOf(product)].MealId" />
 
-                            <label class="col-form-label">@product.Product.ProductName</label>
+                            <label id=@("MealDTO_MealProducts_" + Model.MealDTO.MealProducts.IndexOf(product) + "__ProductLabelId") class="col-form-label">@product.Product.ProductName</label>
                             <input class="product" type="hidden" asp-for="MealDTO.MealProducts[Model.MealDTO.MealProducts.IndexOf(product)].ProductId" />
                         </td>
                         <td>
@@ -108,26 +108,26 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(".productsRows").each(function (index) {
-            var produktId = $(this).children().children(".product").attr("value");
-            HideShowSelected(produktId, false);
+            var produkt = document.getElementById('MealDTO_MealProducts_' + index + '__ProductLabelId').textContent;
+            HideShowSelected(produkt, false);
         });
         $("#add-row").click(function () {
             var tabela = $('#productsTable tr');
             var wierszy = tabela.length;
             var indeks = wierszy - 1;
-            var produkt = $('#productSelect option:selected').text();
-            var produktId = $('#productSelect option:selected').val();
+            var produkt = GetOptionSelected('value');
+            var produktId = GetOptionSelected('id');
             var ilosc = $('#quantity').val();
             var mealId = $('#mealId').val();
-            var markup = '<tr onclick="GetIndex(this)" class="productsRows"><td><input class="mealId" type="hidden" value=' + mealId + ' name="MealDTO.MealProducts[' + indeks + '].MealId"/><input id="MealDTO_MealProducts_' + indeks + '__ProductId" class="product" type="hidden" value=' + produktId + ' name="MealDTO.MealProducts[' + indeks + '].ProductId"/><label class="col-form-label">' + produkt + '</label></td><td><input class="quantity" type="hidden" value=' + ilosc + ' id="MealDTO_MealProducts_' + indeks + '__Quantity" name="MealDTO.MealProducts[' + indeks + '].Quantity"><label class="col-form-label">' + ilosc + '</label></td><td><button type="button" class="btn btn-danger delete-row"><i class="fa fa-close"></button></td></tr>';
+            var markup = '<tr onclick="GetIndex(this)" class="productsRows"><td><input class="mealId" type="hidden" value=' + mealId + ' name="MealDTO.MealProducts[' + indeks + '].MealId"/><input id="MealDTO_MealProducts_' + indeks + '__ProductId" class="product" type="hidden" value=' + produktId + ' name="MealDTO.MealProducts[' + indeks + '].ProductId"/><label id="MealDTO_MealProducts_' + indeks + '__ProductLabelId" class="col-form-label">' + produkt + '</label></td><td><input class="quantity" type="hidden" value=' + ilosc + ' id="MealDTO_MealProducts_' + indeks + '__Quantity" name="MealDTO.MealProducts[' + indeks + '].Quantity"><label class="col-form-label">' + ilosc + '</label></td><td><button type="button" class="btn btn-danger delete-row"><i class="fa fa-close"></button></td></tr>';
             $('table tbody').append(markup);
             SetNull();
-            HideShowSelected(produktId, false);
+            HideShowSelected(produkt, false);
         });
     });
     $(document).on("click", ".delete-row", function (e) {
         e.preventDefault();
-        var produktId = $('#MealDTO_MealProducts_' + index + '__ProductId').attr("value");
+        var produkt = document.getElementById('MealDTO_MealProducts_' + index + '__ProductLabelId').textContent;
         var parentDiv = $(this).parent().parent();
         $(parentDiv).remove();
         var rows = $(".productsRows");
@@ -138,30 +138,46 @@
             $(oneRow).find('.product').attr({ "name": newProduct, "id": newIdProduct });
             var newMeal = 'MealDTO.MealProducts[' + tr + '].MealId';
             $(oneRow).find('.mealId').attr("name", newMeal);
+            var newLabelProduct = 'MealDTO_MealProducts_' + tr + '__ProductLabelId';
+            $(oneRow).find('.produktLabel').attr("id", newLabelProduct);
+            $(oneRow).find('.product').attr({ "name": newProduct, "id": newIdProduct });
             var newQuantity = 'MealDTO.MealProducts[' + tr + '].Quantity';
             $(oneRow).find('.quantity').attr("name", newQuantity);
         };
-        HideShowSelected(produktId, true);
+        HideShowSelected(produkt, true);
         return false;
     });
+
+    function GetOptionSelected(attributeOfOption) {
+        const Value = document.querySelector('#productSelect').value;
+        if (!Value) return;
+        const Id = document.querySelector('option[value="' + Value + '"]').id;
+        const option = document.createElement("option");
+        option.value = Value;
+        option.id = Id;
+        if (attributeOfOption == 'value') {
+            return option.value;
+        }
+        else {
+            return option.id;
+        }
+    };
 
     function GetIndex(x) {
         index = x.rowIndex - 1;
     }
 
-    function HideShowSelected(produktId, hideShow) {
-        var option = $("#productSelect").children('#' + produktId);
-        console.log(option);
+    function HideShowSelected(produkt, hideShow) {
         if (hideShow) {
-            option.show();
+            document.querySelector('option[value="' + produkt + '"]').removeAttribute('disabled');
         }
         else {
-            option.hide();
+            document.querySelector('option[value="' + produkt + '"]').setAttribute('disabled', true);
         }
     };
 
     function SetNull() {
-        $("#productSelect").val('0');
+        $("#productSelect").val(null);
         document.getElementById("quantity").value = "";
     }
 </script>

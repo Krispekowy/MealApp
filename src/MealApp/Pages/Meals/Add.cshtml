@@ -110,7 +110,6 @@
     $(document).on("click", ".delete-row", function (e) {
         e.preventDefault();
         var produkt = document.getElementById('MealDTO_MealProducts_' + index + '__ProductLabelId').textContent;
-        console.log(produkt);
         var parentDiv = $(this).parent().parent();
         $(parentDiv).remove();
         var rows = $(".productsRows");
@@ -120,7 +119,7 @@
             var newIdProduct = 'MealDTO_MealProducts_' + tr + '__ProductId';
             var newLabelProduct = 'MealDTO_MealProducts_' + tr + '__ProductLabelId';
             $(oneRow).find('.product').attr({ "name": newProduct, "id": newIdProduct });
-            console.log($(oneRow).find('.produktLabel').attr("id", newLabelProduct));
+            $(oneRow).find('.produktLabel').attr("id", newLabelProduct);
             var newQuantity = 'MealDTO.MealProducts[' + tr + '].Quantity';
             $(oneRow).find('.quantity').attr("name", newQuantity);
         };
