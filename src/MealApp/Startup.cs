@@ -38,7 +38,6 @@ namespace MeatApp
             //Compilation in runtime
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddScoped<IMealRepository, SQLMealRepository>();
-            services.AddScoped<ITypeOfMealRepository, SQLTypeOfMealRepository>();
             services.AddScoped<IProductRepository, SQLProductRepository>();
             services.AddScoped<IDayDietRepository, SQLDayDietRepository>();
             services.AddScoped<IDietRepository, SQLDietRepository>();

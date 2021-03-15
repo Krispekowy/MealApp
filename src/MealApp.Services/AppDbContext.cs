@@ -44,11 +44,6 @@ namespace MealApp.Services
                 .HasForeignKey(ddm => ddm.MealId);
 
             //one to many relationships
-            modelBuilder.Entity<Meal>()
-                .HasOne(t => t.TypeOfMeal)
-                .WithMany(m => m.Meals)
-                .HasForeignKey(t => t.TypeOfMealId)
-                .OnDelete(DeleteBehavior.SetNull);
             modelBuilder.Entity<DietDay>()
                 .HasOne(d => d.Diet)
                 .WithMany(dd => dd.Days)
@@ -68,7 +63,6 @@ namespace MealApp.Services
 
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<TypeOfMeal> TypeOfMeals { get; set; }
         public DbSet<MealProduct> MealProducts { get; set; }
         public DbSet<DietDayMeals> DayDietMeals { get; set; }
         public DbSet<DietDay> DayDiets { get; set; }

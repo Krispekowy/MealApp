@@ -1,5 +1,6 @@
 ﻿@page
 @model MealApp.Pages.Meals.AddModel
+@using MealApp.Models.Enums
 @{
 }
 <h1>Dodaj posiłek</h1>
@@ -16,12 +17,14 @@
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="MealDTO.TypeOfMealId" class="col-sm-2 col-form-label">
+        <label asp-for="MealDTO.TypeOfMeal" class="col-sm-2 col-form-label">
             Typ
         </label>
         <div class="col-sm-4">
-            @Html.DropDownListFor(p => p.MealDTO.TypeOfMealId, new SelectList(Model.TypeOfMealsDTO, "Id", "TypeName"), "--Wybierz typ posiłku--", new { @class = "form-control" })
-            <span asp-validation-for="MealDTO.TypeOfMealId" class="text-danger"></span>
+            <select class="form-control" asp-for="MealDTO.TypeOfMeal"
+                    asp-items="Html.GetEnumSelectList<TypesOfMeal>()">
+            </select>
+            <span asp-validation-for="MealDTO.TypeOfMeal" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
@@ -29,7 +32,7 @@
             Opis
         </label>
         <div class="col-sm-6">
-            <textarea rows="5" asp-for="MealDTO.Description" class="form-control" placeholder="Podaj przepis na posiłek"></textarea>
+            <textarea rows="5" asp-for="MealDTO.Description" class="form-control" placeholder="Maksymalnie 1000 znaków"></textarea>
             <span asp-validation-for="MealDTO.Description" class="text-danger"></span>
         </div>
     </div>

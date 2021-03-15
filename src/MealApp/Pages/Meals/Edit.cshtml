@@ -1,5 +1,6 @@
 ﻿@page
 @model MealApp.Pages.Meals.EditModel
+@using MealApp.Models.Enums
 @{
 }
 <h1>Edycja posiłku</h1>
@@ -17,12 +18,14 @@
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="MealDTO.TypeOfMealId" class="col-sm-2 col-form-label">
+        <label asp-for="MealDTO.TypeOfMeal" class="col-sm-2 col-form-label">
             Typ
         </label>
         <div class="col-sm-6">
-            @Html.DropDownListFor(p => p.MealDTO.TypeOfMealId, new SelectList(Model.TypeOfMealsDTO, "Id", "TypeName"), "--Wybierz typ posiłku--", new { @class = "form-control" })
-            <span asp-validation-for="MealDTO.TypeOfMealId" class="text-danger"></span>
+            <select class="form-control" asp-for="MealDTO.TypeOfMeal"
+                    asp-items="Html.GetEnumSelectList<TypesOfMeal>()">
+            </select>
+            <span asp-validation-for="MealDTO.TypeOfMeal" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">

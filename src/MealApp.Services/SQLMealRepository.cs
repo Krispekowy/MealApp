@@ -1,4 +1,5 @@
 ﻿using MealApp.Models;
+using MealApp.Models.Enums;
 using MeatApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -36,7 +37,7 @@ namespace MealApp.Services
 
         public IEnumerable<Meal> GetAllMeals()
         {
-            return dbContext.Meals.Include(x => x.TypeOfMeal);
+            return dbContext.Meals;
         }
 
         public Meal GetMeal(int id)
@@ -48,11 +49,11 @@ namespace MealApp.Services
 
         public IEnumerable<Meal> MealByType(int typeId)
         {
-            var query = from meal in dbContext.Meals where meal.TypeOfMealId == typeId select meal;
+            //var query = from meal in dbContext.Meals where meal.TypeOfMeal == typeId select meal;
 
                 //dbContext.Meals.Where(a => a.TypeOfMealId == typeId).Select(a => a.MealName);
             
-            return query;
+            return null;
         }
 
         public IEnumerable<Meal> Search(string searchTerm)
@@ -62,7 +63,7 @@ namespace MealApp.Services
                 return dbContext.Meals;
             }
             return dbContext.Meals.Where(m => m.MealName.Contains(searchTerm) ||
-                                              m.TypeOfMeal.TypeName.Contains(searchTerm));
+                                              Enum.GetNames(typeof(TypesOfMeal)).Contains(searchTerm));
         }
 
         public Meal UpdateMeal(Meal updatedMeal)

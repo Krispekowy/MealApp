@@ -17,29 +17,22 @@ namespace MealApp.Pages.Meals
     {
         private readonly IMealRepository mealRepository;
         private readonly IProductRepository productRepository;
-        private readonly ITypeOfMealRepository typeOfMealRepository;
         private readonly IMapper mapper;
 
         [BindProperty]
         public MealDTO MealDTO { get; set; }
         [BindProperty]
         public IEnumerable<ProductDTO> ProductsDTO { get; set; }
-        [BindProperty]
-        public IEnumerable<TypeOfMealDTO> TypeOfMealsDTO { get; set; }
         public AddModel(IMealRepository mealRepository,
             IProductRepository productRepository,
-            ITypeOfMealRepository typeOfMealRepository,
             IMapper mapper)
         {
             this.mealRepository = mealRepository;
             this.productRepository = productRepository;
-            this.typeOfMealRepository = typeOfMealRepository;
             this.mapper = mapper;
         }
         public IActionResult OnGet()
         {
-            var types = typeOfMealRepository.GetAllTypes();
-            TypeOfMealsDTO = mapper.Map<IEnumerable<TypeOfMealDTO>>(types);
             var products = productRepository.GetAllProducts();
             ProductsDTO = mapper.Map<IEnumerable<ProductDTO>>(products);
             return Page();

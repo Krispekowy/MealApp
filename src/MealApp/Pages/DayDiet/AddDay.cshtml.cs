@@ -4,6 +4,7 @@ using MealApp.Models;
 using MealApp.Models.Models;
 using MealApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -61,9 +62,18 @@ namespace MealApp.Pages.DayDiet
         {
             BuildDietDayMealsDTO();
             CalculateKcal();
-            var day = mapper.Map<DietDay>(Day);
-            dayDietRepository.AddDayDiet(day);
-            return RedirectToPage("/Diets/Edit", new { Id = Day.DietId });
+            if (ModelState.IsValid)
+            {
+                var day = mapper.Map<DietDay>(Day);
+                dayDietRepository.AddDayDiet(day);
+                return RedirectToPage("/Diets/Edit", new { Id = Day.DietId });
+            }
+            else
+            {
+                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                return RedirectToPage("/Error");
+            }
+            
         }
 
         private void CalculateKcal()

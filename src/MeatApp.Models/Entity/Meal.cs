@@ -1,4 +1,5 @@
 ﻿using MealApp.Models;
+using MealApp.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,8 +10,7 @@ namespace MeatApp.Models
     public class Meal
     {
         public int Id { get; set; }
-        public int? TypeOfMealId { get; set; }
-        public TypeOfMeal TypeOfMeal { get; set; }
+        public TypesOfMeal TypeOfMeal { get; set; }
         public string MealName { get; set; }
         public string Description { get; set; }
 

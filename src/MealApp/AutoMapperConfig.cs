@@ -16,8 +16,6 @@ namespace MealApp
             var config = new MapperConfiguration(cfg=> {
                 cfg.AddProfile<ProductDTOProfile>();
                 cfg.AddProfile<ProductProfile>();
-                cfg.AddProfile<TypeOfMealDTOProfile>();
-                cfg.AddProfile<TypeOfMealProfile>();
                 cfg.AddProfile<MealProfile>();
                 cfg.AddProfile<MealDTOProfile>();
                 cfg.AddProfile<DietDayProfile>();

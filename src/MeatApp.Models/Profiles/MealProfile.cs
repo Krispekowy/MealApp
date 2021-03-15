@@ -13,8 +13,8 @@ namespace MealApp.Models.Profiles
         public MealProfile()
         {
             CreateMap<MealDTO, Meal>()
-                .ForMember(dto=>dto.TypeOfMeal, opt=>opt.Ignore())
-                .ForMember(dto=>dto.DayDietMeals, opt=>opt.Ignore());
+                //.ForMember(dto => dto.TypeOfMeal, opt => opt.Ignore())
+                .ForMember(dto => dto.DayDietMeals, opt => opt.Ignore());
         }
     }
 }
