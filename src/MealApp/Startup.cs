@@ -41,7 +41,6 @@ namespace MeatApp
             services.AddScoped<IProductRepository, SQLProductRepository>();
             services.AddScoped<IDayDietRepository, SQLDayDietRepository>();
             services.AddScoped<IDietRepository, SQLDietRepository>();
-            services.AddScoped<ICategoryRepository, SQLCategoryRepository>();
             services.AddScoped<IShoppingListRepository, SQLShoppingListRepository>();
 
             //Automapper

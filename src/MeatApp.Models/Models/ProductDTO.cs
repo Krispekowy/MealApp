@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MealApp.Models.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,8 +13,7 @@ namespace MealApp.Models.Models
         public int Kcal { get; set; }
         public int QuantityUnit { get; set; }
         public string Unit { get; set; }
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
+        public ProductCategories Category { get; set; }
         public IFormFile Photo { get; set; }
         public string PhotoPath { get; set; }
     }

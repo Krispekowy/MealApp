@@ -1,5 +1,6 @@
 ﻿using MealApp.Models;
 using MealApp.Models.Entity;
+using MealApp.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,9 +16,7 @@ namespace MeatApp.Models
         public int Kcal { get; set; }
         public int QuantityUnit { get; set; }
         public string Unit { get; set; }
-        [NotMapped]
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public ProductCategories Category { get; set; }
         public virtual List<MealProduct> MealProducts { get; set; }
         public string PhotoPath { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿@page
 @model MealApp.Pages.Products.AddModel
+@using MealApp.Models.Enums 
 @{
     
 }
@@ -22,12 +23,14 @@
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="ProductDTO.CategoryId" class="col-sm-2 col-form-label">
+        <label asp-for="ProductDTO.Category" class="col-sm-2 col-form-label">
             Kategoria
         </label>
         <div class="col-sm-4">
-            @Html.DropDownListFor(p => p.ProductDTO.CategoryId, Model.Categories, "--Wybierz kategorię produktu--", new { @class = "form-control" })
-            <span asp-validation-for="ProductDTO.CategoryId" class="text-danger"></span>
+            <select class="form-control" asp-for="ProductDTO.Category"
+                    asp-items="Html.GetEnumSelectList<ProductCategories>()">
+            </select>
+            <span asp-validation-for="ProductDTO.Category" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">

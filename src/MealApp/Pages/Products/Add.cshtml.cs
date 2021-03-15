@@ -18,32 +18,22 @@ namespace MealApp.Pages.Products
     public class AddModel : PageModel
     {
         private readonly IProductRepository productRepository;
-        private readonly ICategoryRepository categoryRepository;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IMapper mapper;
 
         public AddModel(
             IProductRepository productRepository,
-            ICategoryRepository categoryRepository,
             IHostingEnvironment hostingEnvironment,
             IMapper mapper)
         {
             this.productRepository = productRepository;
-            this.categoryRepository = categoryRepository;
             this.hostingEnvironment = hostingEnvironment;
             this.mapper = mapper;
         }
         [BindProperty]
         public ProductDTO ProductDTO { get; set; }
-        public IEnumerable<SelectListItem> Categories { get; set; }
         public IActionResult OnGet()
         {
-            var categories = categoryRepository.GetAllCategories();
-            Categories = categories.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            });
             return Page();
         }
         public IActionResult OnPost()

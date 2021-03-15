@@ -13,8 +13,7 @@ namespace MealApp.Models.Profiles
         public ProductProfile()
         {
             CreateMap<ProductDTO, Product>()
-                .ForMember(dto => dto.MealProducts, opt=>opt.Ignore())
-                .ForMember(dto => dto.Category, opt => opt.Ignore());
+                .ForMember(dto => dto.MealProducts, opt => opt.Ignore());
         }
     }
 }

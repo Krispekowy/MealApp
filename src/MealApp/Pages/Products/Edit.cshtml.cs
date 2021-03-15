@@ -17,18 +17,15 @@ namespace MealApp.Pages.Products
     public class EditModel : PageModel
     {
         private readonly IProductRepository productRepository;
-        private readonly ICategoryRepository categoryRepository;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IMapper mapper;
 
         public EditModel(
             IProductRepository productRepository,
-            ICategoryRepository categoryRepository,
             IHostingEnvironment hostingEnvironment,
             IMapper mapper)
         {
             this.productRepository = productRepository;
-            this.categoryRepository = categoryRepository;
             this.hostingEnvironment = hostingEnvironment;
             this.mapper = mapper;
         }
@@ -38,12 +35,6 @@ namespace MealApp.Pages.Products
         public IActionResult OnGet(int id)
         {
             var product = productRepository.GetProduct(id);
-            var categories = categoryRepository.GetAllCategories();
-            Categories = categories.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            });
             ProductDTO = mapper.Map<ProductDTO>(product);
             return Page();
         }

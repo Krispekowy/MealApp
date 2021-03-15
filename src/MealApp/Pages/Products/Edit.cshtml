@@ -1,5 +1,6 @@
 ﻿@page "{id}"
 @model MealApp.Pages.Products.EditModel
+@using MealApp.Models.Enums
 @{
     var photoPath = "~/images/" + (Model.ProductDTO.PhotoPath ?? "noimage.jpg");
 }
@@ -19,12 +20,14 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="ProductDTO.CategoryId" class="col-sm-4 col-form-label">
+                    <label asp-for="ProductDTO.Category" class="col-sm-4 col-form-label">
                         Kategoria
                     </label>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(p => p.ProductDTO.CategoryId, Model.Categories, "--Wybierz kategorię produktu--", new { @class = "form-control" })
-                        <span asp-validation-for="ProductDTO.CategoryId" class="text-danger"></span>
+                        <select class="form-control" asp-for="ProductDTO.Category"
+                                asp-items="Html.GetEnumSelectList<ProductCategories>()">
+                        </select>
+                        <span asp-validation-for="ProductDTO.Category" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">

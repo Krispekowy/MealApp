@@ -48,10 +48,6 @@ namespace MealApp.Services
                 .HasOne(d => d.Diet)
                 .WithMany(dd => dd.Days)
                 .HasForeignKey(d => d.DietId);
-            modelBuilder.Entity<Product>()
-                .HasOne(c => c.Category)
-                .WithMany(p => p.Products)
-                .HasForeignKey(c => c.CategoryId);
 
             //Do usunięcia jeśli stworzone zostanie zapytanie do bazy bezpośrednio w kodzie
             //modelBuilder.Entity<v_ShoppingList>()
@@ -67,7 +63,6 @@ namespace MealApp.Services
         public DbSet<DietDayMeals> DayDietMeals { get; set; }
         public DbSet<DietDay> DayDiets { get; set; }
         public DbSet<Diet> Diets { get; set; }
-        public DbSet<Category> ProductCategories { get; set; }
 
     }
 }

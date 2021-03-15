@@ -13,8 +13,6 @@ namespace MealApp.Models.Profiles
         public ProductDTOProfile()
         {
             CreateMap<Product, ProductDTO>()
-                .ForMember(dto => dto.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
-                .ForMember(dto=>dto.CategoryName, opt=>opt.MapFrom(src => src.Category.Name))
                 .ForMember(dto => dto.Photo, opt => opt.Ignore());
         }
     }
