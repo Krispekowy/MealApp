@@ -11,6 +11,8 @@ namespace MealApp.Models.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "Pole nazwa dnia jest wymagane")]
         [DisplayName("Nazwa dnia")]
+        [MinLength(3, ErrorMessage = "Nazwa musi mieć co najmniej 3 znaki")]
+        [MaxLength(50, ErrorMessage = "Nazwa może mieć maksymalnie 50 znaków")]
         public string Name { get; set; }
         public int DietId { get; set; }
         [Required(ErrorMessage = "Wybierz posiłek na I śniadanie")]

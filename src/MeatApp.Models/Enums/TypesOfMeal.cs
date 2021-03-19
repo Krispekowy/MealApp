@@ -7,6 +7,8 @@ namespace MealApp.Models.Enums
 {
     public enum TypesOfMeal
     {
+        [Display(Name = "-")]
+        Brak = 0,
         [Display(Name="Śniadanie")]
         Breakfast = 1,
         [Display(Name = "II śniadanie")]

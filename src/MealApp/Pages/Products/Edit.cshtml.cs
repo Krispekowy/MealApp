@@ -41,22 +41,36 @@ namespace MealApp.Pages.Products
 
         public IActionResult OnPost()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                string uniqueFileName = null;
-                if (ProductDTO.Photo != null)
-                {
-                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + ProductDTO.Photo.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    ProductDTO.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
-                var product = mapper.Map<Product>(ProductDTO);
-                product.PhotoPath = uniqueFileName;
-                productRepository.UpdateProduct(product);
-                return RedirectToPage("Index");
+                ViewData["ErrorMessage"] = ModelState.Select(x => x.Value.Errors)
+                    .Where(y => y.Count > 0)
+                    .ToList();
+                return RedirectPermanent("Error");
             }
+
+            var product = mapper.Map<Product>(ProductDTO);
+
+            string uniqueFileName = null;
+            if (ProductDTO.Photo != null)
+            {
+                uniqueFileName = UploadFile();
+                product.PhotoPath = uniqueFileName;
+            }
+            var oldPhotoPath = productRepository.GetProduct(ProductDTO.Id).PhotoPath;
+            product.PhotoPath = oldPhotoPath;
+            productRepository.UpdateProduct(product);
             return RedirectToPage("Index");
+        }
+
+        private string UploadFile()
+        {
+            string uniqueFileName;
+            string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+            uniqueFileName = Guid.NewGuid().ToString() + "_" + ProductDTO.Photo.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            ProductDTO.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+            return uniqueFileName;
         }
     }
 }

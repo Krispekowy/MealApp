@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
 
 namespace MealApp.Models.Models
@@ -21,5 +22,6 @@ namespace MealApp.Models.Models
         public string Description { get; set; }
         public int Kcal { get; set; } = 0;
         public List<MealProduct> MealProducts { get; set; }
+
     }
 }

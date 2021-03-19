@@ -1,5 +1,4 @@
-﻿using MealApp.Models.Entity;
-using MealApp.Models.Models;
+﻿using MealApp.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

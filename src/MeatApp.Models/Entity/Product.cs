@@ -1,5 +1,4 @@
 ﻿using MealApp.Models;
-using MealApp.Models.Entity;
 using MealApp.Models.Enums;
 using System;
 using System.Collections.Generic;

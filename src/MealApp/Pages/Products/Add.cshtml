@@ -14,12 +14,14 @@
         </label>
         <div class="col-sm-4">
             <input asp-for="ProductDTO.ProductName" class="form-control" placeholder="Nazwa produktu">
+            <span asp-validation-for="ProductDTO.ProductName" class="text-danger"></span>
         </div>
         <label asp-for="ProductDTO.Photo" class="col-sm-2 col-form-label">
             Zdjęcie produktu
         </label>
         <div class="col-sm-4 custom-file" lang="pl">
             <input asp-for="ProductDTO.Photo" type="file" class="form-control-file">
+            <span asp-validation-for="ProductDTO.Photo" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
@@ -38,7 +40,8 @@
             Kalorie
         </label>
         <div class="col-sm-4">
-            <input asp-for="ProductDTO.Kcal" class="form-control" placeholder="Ilość kalorii">
+            <input type="text" asp-for="ProductDTO.Kcal" class="form-control" placeholder="Ilość kalorii">
+            <span asp-validation-for="ProductDTO.Kcal" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
@@ -46,15 +49,19 @@
             Jednostka
         </label>
         <div class="col-sm-4">
-            <input asp-for="ProductDTO.Unit" class="form-control" placeholder="Jednostka">
+            <select class="form-control" asp-for="ProductDTO.Unit"
+                    asp-items="Html.GetEnumSelectList<Unit>()">
+            </select>
+            <span asp-validation-for="ProductDTO.Unit" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
         <label asp-for="ProductDTO.QuantityUnit" class="col-sm-2 col-form-label">
-            Ilość jednostki
+            Ilość jednostek
         </label>
         <div class="col-sm-4">
-            <input asp-for="ProductDTO.QuantityUnit" class="form-control" placeholder="Ilość jednostek">
+            <input type="text" asp-for="ProductDTO.QuantityUnit" class="form-control" placeholder="Ilość jednostek">
+            <span asp-validation-for="ProductDTO.QuantityUnit" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
@@ -63,8 +70,8 @@
             <a asp-page="/Products/Index" class="btn btn-danger">Wróć</a>
         </div>
     </div>
-
-    @section Scripts{ 
+    @section Scripts{
+        <partial name="~/Pages/Shared/_ValidationScriptsPartial.cshtml" />
         <script>
             $(document).ready(function () {
                 $('.custom-file-input').on("change", function () {

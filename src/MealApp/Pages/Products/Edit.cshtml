@@ -17,6 +17,7 @@
                     </label>
                     <div class="col-sm-8">
                         <input asp-for="ProductDTO.ProductName" class="form-control" placeholder="Nazwa produktu">
+                        <span asp-validation-for="ProductDTO.ProductName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -35,23 +36,28 @@
                         Kalorie
                     </label>
                     <div class="col-sm-8">
-                        <input asp-for="ProductDTO.Kcal" class="form-control" placeholder="Ilość kalorii">
+                        <input type="text" asp-for="ProductDTO.Kcal" class="form-control" placeholder="Ilość kalorii">
+                        <span asp-validation-for="ProductDTO.Kcal" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="ProductDTO.Unit" class="col-sm-4 col-form-label">
                         Jednostka
                     </label>
-                    <div class="col-sm-8">
-                        <input asp-for="ProductDTO.Unit" class="form-control" placeholder="Jednostka">
+                    <div class="col-sm-4">
+                        <select class="form-control" asp-for="ProductDTO.Unit"
+                                asp-items="Html.GetEnumSelectList<Unit>()">
+                        </select>
+                        <span asp-validation-for="ProductDTO.Unit" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="ProductDTO.QuantityUnit" class="col-sm-4 col-form-label">
-                        Ilość jednostki
+                        Ilość jednostek
                     </label>
                     <div class="col-sm-8">
-                        <input asp-for="ProductDTO.QuantityUnit" class="form-control" placeholder="Ilość jednostek">
+                        <input type="text" asp-for="ProductDTO.QuantityUnit" class="form-control" placeholder="Ilość jednostek">
+                        <span asp-validation-for="ProductDTO.QuantityUnit" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
@@ -64,16 +70,18 @@
                 </div>
             </div>
             <div class="col-sm">
-                <label asp-for="ProductDTO.Photo" class="col-sm-4 col-form-label">
+                <label asp-for="ProductDTO.PhotoPath" class="col-sm-4 col-form-label">
                     <img class="card-img-top" style="width:256px; height:256px" src="@photoPath" asp-append-version="true" />
                 </label>
                 <div class="col-sm-8 custom-file" lang="pl">
                     <input asp-for="ProductDTO.Photo" type="file" class="form-control-file">
+                    <span asp-validation-for="ProductDTO.Photo" class="text-danger"></span>
                 </div>
             </div>
         </div>
     </div>
     @section Scripts{
+        <partial name="~/Pages/Shared/_ValidationScriptsPartial.cshtml" />
         <script>
             $(document).ready(function () {
                 $('.custom-file-input').on("change", function () {

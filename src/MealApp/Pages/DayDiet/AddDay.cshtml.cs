@@ -45,35 +45,36 @@ namespace MealApp.Pages.DayDiet
             {
                 DietId = dietId
             };
-            GetMealsByType();
+            PopulateSelectLists();
             return Page();
-        }
-
-        private void GetMealsByType()
-        {
-            Breakfast = new SelectList(mealRepository.MealByType(6).ToList(), "Id", "MealName");
-            Brunch = new SelectList(mealRepository.MealByType(7).ToList(), "Id", "MealName");
-            Lunch = new SelectList(mealRepository.MealByType(8).ToList(), "Id", "MealName");
-            Tea = new SelectList(mealRepository.MealByType(4).ToList(), "Id", "MealName");
-            Dinner = new SelectList(mealRepository.MealByType(9).ToList(), "Id", "MealName");
         }
 
         public IActionResult OnPost()
         {
             BuildDietDayMealsDTO();
             CalculateKcal();
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var day = mapper.Map<DietDay>(Day);
-                dayDietRepository.AddDayDiet(day);
-                return RedirectToPage("/Diets/Edit", new { Id = Day.DietId });
-            }
-            else
-            {
-                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                ViewData["ErrorMessage"] = ModelState.Select(x => x.Value.Errors)
+                    .Where(y => y.Count > 0)
+                    .ToList();
                 return RedirectToPage("/Error");
+                
             }
-            
+            var day = mapper.Map<DietDay>(Day);
+            dayDietRepository.AddDayDiet(day);
+            return RedirectToPage("/Diets/Edit", new { Id = Day.DietId });
+
+        }
+
+        #region private methods
+        private void PopulateSelectLists()
+        {
+            Breakfast = new SelectList(mealRepository.MealByType(1));
+            Brunch = new SelectList(mealRepository.MealByType(2));
+            Lunch = new SelectList(mealRepository.MealByType(3));
+            Tea = new SelectList(mealRepository.MealByType(4));
+            Dinner = new SelectList(mealRepository.MealByType(5));
         }
 
         private void CalculateKcal()
@@ -119,8 +120,9 @@ namespace MealApp.Pages.DayDiet
                     MealId = Day.Dinner,
                     TypeOfMeal = 9
                 },
-            }); //Create object List<DietDayMealsDTO
+            });
         }
+        #endregion
     }
 
 }

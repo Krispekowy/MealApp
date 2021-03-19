@@ -1,5 +1,4 @@
 ﻿using MealApp.Models;
-using MealApp.Models.Entity;
 using MeatApp.Models;
 using Microsoft.EntityFrameworkCore;
 

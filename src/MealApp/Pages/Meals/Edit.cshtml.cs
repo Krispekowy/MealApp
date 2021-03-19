@@ -32,28 +32,33 @@ namespace MealApp.Pages.Meals
 
         public IActionResult OnGet(int Id)
         {
-            var products = productRepository.GetAllProducts();
-            ProductsDTO = mapper.Map<IEnumerable<ProductDTO>>(products);
-            var meal = mealRepository.GetMeal(Id);
-            MealDTO = mapper.Map<MealDTO>(meal);
+            PopulateModel(Id);
             return Page();
         }
 
         public IActionResult OnPost()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                MealDTO = CalculateKcal(MealDTO);
-                var meal = mapper.Map<Meal>(MealDTO);
-                mealRepository.UpdateMeal(meal);
-                return RedirectToPage("Index");
-            }
-            else
-            {
+                ViewData["ErrorMessage"] = ModelState.Select(x => x.Value.Errors)
+                    .Where(y => y.Count > 0)
+                    .ToList();
                 return RedirectToPage("Error");
             }
+            MealDTO = CalculateKcal(MealDTO);
+            var meal = mapper.Map<Meal>(MealDTO);
+            mealRepository.UpdateMeal(meal);
+            return RedirectToPage("Index");
+            
         }
 
+        private void PopulateModel(int Id)
+        {
+            var products = productRepository.GetAllProducts();
+            ProductsDTO = mapper.Map<IEnumerable<ProductDTO>>(products);
+            var meal = mealRepository.GetMeal(Id);
+            MealDTO = mapper.Map<MealDTO>(meal);
+        }
         private MealDTO CalculateKcal(MealDTO mealDTO)
         {
             var mealProducts = new List<MealProduct>();

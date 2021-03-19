@@ -40,17 +40,17 @@ namespace MealApp.Pages.Meals
 
         public IActionResult OnPost()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                MealDTO=CalculateKcal(MealDTO);
-                var meal = mapper.Map<Meal>(MealDTO);
-                mealRepository.AddMeal(meal);
-                return RedirectToPage("Index");
-            }
-            else
-            {
+                ViewData["ErrorMessage"] = ModelState.Select(x => x.Value.Errors)
+                    .Where(y => y.Count > 0)
+                    .ToList();
                 return RedirectToPage("Error");
             }
+            MealDTO = CalculateKcal(MealDTO);
+            var meal = mapper.Map<Meal>(MealDTO);
+            mealRepository.AddMeal(meal);
+            return RedirectToPage("Index");
         }
 
         private MealDTO CalculateKcal(MealDTO mealDTO)

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using MealApp.Models.Entity;
 using MealApp.Models.Models;
 using MealApp.Services;
 using MeatApp.Models;
@@ -38,22 +37,32 @@ namespace MealApp.Pages.Products
         }
         public IActionResult OnPost()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                string uniqueFileName = null;
-                if (ProductDTO.Photo!=null)
-                {
-                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + ProductDTO.Photo.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    ProductDTO.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
-                var product = mapper.Map<Product>(ProductDTO);
-                product.PhotoPath = uniqueFileName;
-                productRepository.AddProduct(product);
-                return RedirectToPage("Index");
+                ViewData["ErrorMessage"] = ModelState.Select(x => x.Value.Errors)
+                    .Where(y => y.Count > 0)
+                    .ToList();
+                return RedirectToPage("Error");
             }
+            string uniqueFileName = null;
+            if (ProductDTO.Photo != null)
+            {
+                uniqueFileName = UploadPhoto();
+            }
+            var product = mapper.Map<Product>(ProductDTO);
+            product.PhotoPath = uniqueFileName;
+            productRepository.AddProduct(product);
             return RedirectToPage("Index");
+        }
+
+        private string UploadPhoto()
+        {
+            string uniqueFileName;
+            string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+            uniqueFileName = Guid.NewGuid().ToString() + "_" + ProductDTO.Photo.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            ProductDTO.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+            return uniqueFileName;
         }
     }
 }

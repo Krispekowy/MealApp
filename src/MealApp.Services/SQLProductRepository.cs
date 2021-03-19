@@ -1,4 +1,5 @@
-﻿using MeatApp.Models;
+﻿using MealApp.Models.Extensions;
+using MeatApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -35,22 +36,22 @@ namespace MealApp.Services
 
         public IEnumerable<Product> GetAllProducts()
         {
-            return dbContext.Products.Include(a=>a.Category);
+            return dbContext.Products;
         }
 
         public Product GetProduct(int id)
         {
-            return dbContext.Products.Find(id);
+            return dbContext.Products.AsNoTracking().Where(a=>a.Id == id).FirstOrDefault();
         }
 
         public IEnumerable<Product> SearchProduct(string searchTerm)
         {
             if (string.IsNullOrEmpty(searchTerm))
             {
-                return dbContext.Products.Include(a => a.Category);
+                return dbContext.Products;
             }
             return dbContext.Products.Where(p => p.ProductName.Contains(searchTerm) ||
-                                              p.Kcal.ToString().Contains(searchTerm)).Include(a=>a.Category);
+                                              p.Kcal.ToString().Contains(searchTerm));
         }
 
         public Product UpdateProduct(Product updatedProduct)
