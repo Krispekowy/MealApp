@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq.Expressions;
+using System.Text;
 using AutoMapper;
 using ClosedXML.Excel;
 using IronXL;
@@ -9,6 +11,7 @@ using MealApp.Models.Static;
 using MealApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MealApp.Models.Helpers;
 
 namespace MealApp.Pages.Diets
 {

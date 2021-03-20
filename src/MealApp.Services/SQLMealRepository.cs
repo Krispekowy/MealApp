@@ -49,11 +49,11 @@ namespace MealApp.Services
 
         public IEnumerable<Meal> MealByType(int typeId)
         {
-            //var query = from meal in dbContext.Meals where meal.TypeOfMeal == typeId select meal;
+            //var query = from meal in dbContext.Meals where meal.TypeOfMeal == (TypesOfMeal)typeId select meal;
 
-                //dbContext.Meals.Where(a => a.TypeOfMealId == typeId).Select(a => a.MealName);
+            return dbContext.Meals.Where(a => a.TypeOfMeal == (TypesOfMeal)typeId).ToList();
             
-            return null;
+            //return query;
         }
 
         public IEnumerable<Meal> Search(string searchTerm)

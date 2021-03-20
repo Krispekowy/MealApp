@@ -70,11 +70,11 @@ namespace MealApp.Pages.DayDiet
         #region private methods
         private void PopulateSelectLists()
         {
-            Breakfast = new SelectList(mealRepository.MealByType(1));
-            Brunch = new SelectList(mealRepository.MealByType(2));
-            Lunch = new SelectList(mealRepository.MealByType(3));
-            Tea = new SelectList(mealRepository.MealByType(4));
-            Dinner = new SelectList(mealRepository.MealByType(5));
+            Breakfast = new SelectList(mealRepository.MealByType(1).Select(a=>a.MealName));
+            Brunch = new SelectList(mealRepository.MealByType(2).Select(a => a.MealName));
+            Lunch = new SelectList(mealRepository.MealByType(3).Select(a => a.MealName));
+            Tea = new SelectList(mealRepository.MealByType(4).Select(a => a.MealName));
+            Dinner = new SelectList(mealRepository.MealByType(5).Select(a => a.MealName));
         }
 
         private void CalculateKcal()
